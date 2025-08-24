@@ -1,0 +1,20 @@
+# -------------------------
+# PipeFlow - Configuração de Banco de Dados
+# -------------------------
+
+# URL de conexão JDBC
+# Altere 'localhost' ou a porta se seu MySQL estiver em outro host/porta
+db.url=jdbc:mysql://localhost:3306/pipe_flow_db?useSSL=false&serverTimezone=UTC
+
+# Usuário do banco
+db.username=seu_user_aqui
+
+# Senha do usuário (substitua com sua senha local)
+db.password=sua_senha_aqui
+
+# -------------------------
+# Instruções:
+# 1. Copie este arquivo para 'db.properties'.
+# 2. Preencha com suas credenciais locais.
+# 3. Não versionar 'db.properties', ele está no .gitignore.
+# -------------------------

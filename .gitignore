@@ -1,0 +1,44 @@
+# -------------------------
+# Pastas de build e target
+# -------------------------
+/target/
+build/
+
+# Ignorar arquivos do Maven local (exceto wrapper)
+!.mvn/wrapper/maven-wrapper.jar
+
+# -------------------------
+# IDEs
+# -------------------------
+
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# VS Code
+.vscode/
+
+# -------------------------
+# Arquivos do sistema
+# -------------------------
+.DS_Store
+
+# -------------------------
+# Configurações sensíveis
+# -------------------------
+# Ignorar o arquivo de configuração real do banco
+src/main/resources/db.properties
