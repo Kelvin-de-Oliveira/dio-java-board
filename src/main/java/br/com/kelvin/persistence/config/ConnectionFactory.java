@@ -1,5 +1,7 @@
 package br.com.kelvin.persistence.config;
 
+import org.flywaydb.core.Flyway;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -9,12 +11,12 @@ import java.util.Properties;
 
 
 
-public class ConnectionConfig {
+public class ConnectionFactory {
 
     private static final Properties properties = new Properties();
 
     static {
-        try (InputStream input =  ConnectionConfig.class.getClassLoader()
+        try (InputStream input =  ConnectionFactory.class.getClassLoader()
                 .getResourceAsStream("db.properties")) {
 
             if (input == null) {
@@ -38,5 +40,15 @@ public class ConnectionConfig {
         connection.setAutoCommit(false);
 
         return connection;
+    }
+
+    public static Flyway getFlyway() {
+        return Flyway.configure()
+                .dataSource(
+                        properties.getProperty("db.url"),
+                        properties.getProperty("db.username"),
+                        properties.getProperty("db.password"))
+                .locations("classpath:db/migration")
+                .load();
     }
 }
