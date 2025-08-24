@@ -1,4 +1,4 @@
-package br.com.kelvin.persitence.config;
+package br.com.kelvin.persistence.config;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,12 +9,12 @@ import java.util.Properties;
 
 
 
-public class ConectionConfig {
+public class ConnectionConfig {
 
     private static final Properties properties = new Properties();
 
     static {
-        try (InputStream input =  ConectionConfig.class.getClassLoader()
+        try (InputStream input =  ConnectionConfig.class.getClassLoader()
                 .getResourceAsStream("db.properties")) {
 
             if (input == null) {
