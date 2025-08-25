@@ -17,8 +17,10 @@ public class InitialMenu {
     private final Scanner scanner = new Scanner(System.in);
     private final BoardService boardService;
     private final BoardQueryService boardQueryService;
+    private final Connection connection;
 
     public InitialMenu(Connection connection) {
+        this.connection = connection;
         this.boardService = new BoardService(connection);
         this.boardQueryService = new BoardQueryService(connection);
     }
@@ -75,7 +77,37 @@ public class InitialMenu {
     }
 
     private void selectBoard() {
-        // listar boards e permitir seleção
+        List<BoardEntity> boards = boardQueryService.findAllBoards();
+        if (boards.isEmpty()) {
+            System.out.println("Nenhum board disponível.");
+            return;
+        }
+
+        System.out.println("Boards disponíveis:");
+        for (BoardEntity b : boards) {
+            System.out.println(b.getId() + " - " + b.getName());
+        }
+
+        System.out.print("Digite o ID do board que deseja selecionar: ");
+        try {
+            long id = Long.parseLong(scanner.nextLine());
+            BoardEntity selectedBoard = boards.stream()
+                    .filter(b -> b.getId().equals(id))
+                    .findFirst()
+                    .orElse(null);
+
+            if (selectedBoard == null) {
+                System.out.println("Board com ID " + id + " não encontrado.");
+                return;
+            }
+
+
+            BoardMenu boardMenu = new BoardMenu(selectedBoard, connection);
+            boardMenu.showBoardMenu();
+
+        } catch (NumberFormatException e) {
+            System.out.println("ID inválido.");
+        }
     }
 
     private void deleteBoards() {

@@ -14,13 +14,24 @@ public class BoardColumnQueryService {
 
     private final Connection connection;
 
-    /*public Optional<BoardColumnEntity> findById(Long id) {
-        BoardColumnDAO columnDAO = new BoardColumnDAO(connection);
+
+    public Optional<List<BoardColumnEntity>> findColumnsByBoardId(Long boardId) {
+        BoardColumnDAO dao = new BoardColumnDAO(connection);
         try {
-            return columnDAO.findById(id); // supondo que BoardColumnDAO já tenha um método findById retornando Optional<BoardColumnEntity>
+            return Optional.ofNullable(dao.findByBoardId(boardId));
         } catch (SQLException e) {
-            System.err.println("Erro ao buscar BoardColumn com ID " + id + ": " + e.getMessage());
+            System.err.println("Erro ao buscar colunas do board: " + e.getMessage());
             return Optional.empty();
         }
-    }*/
+    }
+
+    public List<BoardColumnEntity> findColumnsWithCardsByBoardId(Long boardId) {
+        BoardColumnDAO dao = new BoardColumnDAO(connection);
+        try {
+            return dao.findColumnsWithCardsByBoardId(boardId);
+        } catch (SQLException e) {
+            System.err.println("Erro ao buscar colunas e cards do board: " + e.getMessage());
+            return List.of();
+        }
+    }
 }

@@ -10,5 +10,5 @@ public class CardEntity {
     private String title;
     private String description;
 
-    private BoardColumnEntity column  = new BoardColumnEntity();;
+    private BoardColumnEntity column;
 }
