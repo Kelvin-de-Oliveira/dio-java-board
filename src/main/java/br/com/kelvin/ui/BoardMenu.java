@@ -67,7 +67,7 @@ public class BoardMenu {
             printSeparator(columns.size());
 
             if (!showOptionsMenu(columns)) {
-                return; // se o usuário escolheu sair, encerra o loop
+                return;
             }
         }
     }

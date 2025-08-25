@@ -58,13 +58,41 @@ public class InitialMenu {
         BoardEntity board = new BoardEntity();
         board.setName(boardName);
 
-        List<BoardColumnEntity> columns = new ArrayList<>(List.of(
-                createColumn("Inicial", BoardColumnEntity.ColumnType.INITIAL, 0),
-                createColumn("Final", BoardColumnEntity.ColumnType.FINAL, 1),
-                createColumn("Cancelado", BoardColumnEntity.ColumnType.CANCELLED, 2)
-        ));
+        List<BoardColumnEntity> columns = new ArrayList<>();
+
+
+        columns.add(createColumn("Inicial", BoardColumnEntity.ColumnType.INITIAL, 0));
+
+
+        System.out.print("Quantas colunas PENDENTES você deseja adicionar? ");
+        int numPendentes = 0;
+        try {
+            numPendentes = Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            System.out.println("Número inválido, continuando sem colunas pendentes.");
+        }
+
+
+        for (int i = 0; i < numPendentes; i++) {
+            System.out.print("Digite o nome da coluna pendente #" + (i + 1) + ": ");
+            String colName = scanner.nextLine();
+
+            columns.add(createColumn(colName, BoardColumnEntity.ColumnType.PENDING, i + 1));
+        }
+
+
+        columns.add(createColumn("Final", BoardColumnEntity.ColumnType.FINAL, columns.size()));
+
+
+        columns.add(createColumn("Cancelado", BoardColumnEntity.ColumnType.CANCELLED, columns.size()));
+
+        for (int i = 0; i < columns.size(); i++) {
+            columns.get(i).setColOrder(i);
+        }
 
         board.setColumns(columns);
+
+
         boardService.createBoard(board);
     }
 
