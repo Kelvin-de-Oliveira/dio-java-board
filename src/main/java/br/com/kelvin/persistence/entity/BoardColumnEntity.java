@@ -19,9 +19,10 @@ public class BoardColumnEntity {
     private String name;
     private Integer colOrder;
     private ColumnType colType;
+
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-
     private BoardEntity board = new BoardEntity();
+
     private List<CardEntity> cards = new ArrayList<>();
 }
