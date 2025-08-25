@@ -85,11 +85,11 @@ public class BoardMenu {
             case "2" -> selectCard(columns);
             case "3" -> {
                 System.out.println("Fechando board...");
-                return false; // encerra o loop do showBoardMenu
+                return false;
             }
             default -> System.out.println("Opção inválida, tente novamente.");
         }
-        return true; // continua no loop
+        return true;
     }
     private void createCard(List<BoardColumnEntity> columns) {
         CardService cardService = new CardService(connection);
@@ -100,7 +100,7 @@ public class BoardMenu {
         System.out.print("Digite a descrição do card: ");
         String description = scanner.nextLine();
 
-        // O card sempre começa na primeira coluna do board
+
         BoardColumnEntity firstColumn = columns.get(0);
 
         CardEntity newCard = new CardEntity();
