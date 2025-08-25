@@ -33,8 +33,8 @@ public class CardMenu {
 
             String input = scanner.nextLine();
             switch (input) {
-                case "1" -> System.out.println("verfiicar oq há de errado"); // cardService.moveToNextColumn(card);
-                case "2" ->    System.out.println("verfiicar oq há de errado"); // cardService.cancelCard(card);
+                case "1" -> cardService.moveToNextColumn(card);
+                case "2" -> cardService.cancelCard(card);
                 case "3" -> {
                     System.out.print("Informe o motivo do bloqueio: ");
                     String reason = scanner.nextLine();

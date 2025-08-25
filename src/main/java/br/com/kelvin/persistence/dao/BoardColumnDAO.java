@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @AllArgsConstructor
 public class BoardColumnDAO {
@@ -31,6 +30,7 @@ public class BoardColumnDAO {
             }
         }
     }
+
     public BoardColumnEntity findById(Long columnId) throws SQLException {
         String sql = "SELECT id, board_id, name, col_order, col_type FROM BOARD_COLUMNS WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -43,7 +43,6 @@ public class BoardColumnDAO {
                     column.setColOrder(rs.getInt("col_order"));
                     column.setColType(BoardColumnEntity.ColumnType.valueOf(rs.getString("col_type")));
 
-                    // Cria referência mínima do Board
                     BoardEntity board = new BoardEntity();
                     board.setId(rs.getLong("board_id"));
                     column.setBoard(board);
@@ -69,7 +68,7 @@ public class BoardColumnDAO {
                     column.setName(rs.getString("name"));
                     column.setColOrder(rs.getInt("col_order"));
                     column.setColType(BoardColumnEntity.ColumnType.valueOf(rs.getString("col_type")));
-                    
+
                     BoardEntity board = new BoardEntity();
                     board.setId(boardId);
                     column.setBoard(board);
@@ -78,8 +77,18 @@ public class BoardColumnDAO {
                 }
             }
         }
+
+
+        BoardEntity board = new BoardEntity();
+        board.setId(boardId);
+        board.setColumns(columns);
+        for (BoardColumnEntity col : columns) {
+            col.setBoard(board);
+        }
+
         return columns;
     }
+
     public List<BoardColumnEntity> findColumnsWithCardsByBoardId(Long boardId) throws SQLException {
         String sql = """
             SELECT c.id AS col_id, c.name AS col_name, c.col_order, c.col_type,
@@ -93,18 +102,22 @@ public class BoardColumnDAO {
         List<BoardColumnEntity> columns = new ArrayList<>();
         BoardColumnEntity currentColumn = null;
 
+        BoardEntity board = new BoardEntity();
+        board.setId(boardId);
+
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setLong(1, boardId);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     long colId = rs.getLong("col_id");
 
-                    if (currentColumn == null || currentColumn.getId() != colId) {
+                    if (currentColumn == null || !currentColumn.getId().equals(colId)) {
                         currentColumn = new BoardColumnEntity();
                         currentColumn.setId(colId);
                         currentColumn.setName(rs.getString("col_name"));
                         currentColumn.setColOrder(rs.getInt("col_order"));
                         currentColumn.setColType(BoardColumnEntity.ColumnType.valueOf(rs.getString("col_type")));
+                        currentColumn.setBoard(board);
                         columns.add(currentColumn);
                     }
 
@@ -121,8 +134,7 @@ public class BoardColumnDAO {
             }
         }
 
+        board.setColumns(columns);
         return columns;
     }
-
-
 }

@@ -1,6 +1,7 @@
 package br.com.kelvin.persistence.dao;
 
 import br.com.kelvin.persistence.entity.BlockEntity;
+import br.com.kelvin.persistence.entity.BoardColumnEntity;
 import br.com.kelvin.persistence.entity.CardEntity;
 import lombok.AllArgsConstructor;
 
@@ -36,12 +37,16 @@ public class CardDAO {
             int updatedRows = stmt.executeUpdate();
 
             if (updatedRows > 0) {
-                card.getColumn().setId(newColumnId); // Atualiza a referência no objeto
+                // Busca a nova coluna do banco e atualiza o objeto
+                BoardColumnDAO columnDAO = new BoardColumnDAO(connection);
+                BoardColumnEntity newColumn = columnDAO.findById(newColumnId);
+                card.setColumn(newColumn);
             } else {
                 throw new SQLException("Nenhum card encontrado com ID: " + card.getId());
             }
         }
     }
+
     public boolean isCardBlocked(CardEntity card) throws SQLException {
         String sql = "SELECT COUNT(*) FROM BLOCKS WHERE card_id = ? AND unblocked_at IS NULL";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
