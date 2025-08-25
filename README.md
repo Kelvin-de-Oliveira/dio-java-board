@@ -78,15 +78,14 @@ O objetivo é totalmente didático, servindo como prática no uso de JDBC, MySQL
 ### Passo a passo
 
 1. **Clone o repositório**
-   ```bash
+```bash
    git clone https://github.com/seu-usuario/seu-repositorio.git
    cd seu-repositorio
-    ```
-
+```
 2. **Configure a conexão com o banco**
-    ```bash
+ ```bash
     cp src/main/resources/db.properties.example src/main/resources/db.properties
-    ```
+```
 
 Edite o arquivo `db.properties` com os dados do seu MySQL e conforme as orientações contidas em db.properties.example :
 
@@ -96,11 +95,10 @@ db.user=seu_usuario
 db.password=sua_senha
 ```
 
-## Compile e execute o projeto
-
+3. **Compile e execute o projeto**
 ```bash
-    mvn clean install
-    mvn exec:java -Dexec.mainClass="br.com.kelvin.Main"
+  mvn clean install
+  mvn exec:java -Dexec.mainClass="br.com.kelvin.Main"
 ```
 
 ---
